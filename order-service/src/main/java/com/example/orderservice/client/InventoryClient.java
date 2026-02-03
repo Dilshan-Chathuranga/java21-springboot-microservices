@@ -2,6 +2,7 @@ package com.example.orderservice.client;
 
 import com.example.orderservice.dto.InventoryRequest;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.util.Map;
  * @date 2/3/2026
  */
 
+@Slf4j
 @Component
 public class InventoryClient {
 
@@ -45,7 +47,8 @@ public class InventoryClient {
                 "productCode", productCode,
                 "quantity", quantity
         );
-
+        log.info("Calling INVENTORY reserve | product={} qty={}",
+                productCode, quantity);
         restTemplate.postForEntity(
                 inventoryServiceUrl + "/inventory/reserve",
                 new HttpEntity<>(body, headers),
@@ -63,7 +66,8 @@ public class InventoryClient {
                 "productCode", productCode,
                 "quantity", quantity
         );
-
+        log.info("Calling INVENTORY release | product={} qty={}",
+                productCode, quantity);
         restTemplate.postForEntity(
                 inventoryServiceUrl + "/inventory/release",
                 new HttpEntity<>(body, headers),
@@ -76,6 +80,7 @@ public class InventoryClient {
             int quantity,
             Throwable ex
     ) {
+        log.error("INVENTORY CB OPEN | fallback triggered", ex);
         throw new RuntimeException("Inventory service unavailable", ex);
     }
 }

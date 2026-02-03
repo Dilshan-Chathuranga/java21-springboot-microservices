@@ -4,6 +4,8 @@ This document defines the core entities for each microservice and clearly
 establishes data ownership boundaries. Each service owns its database and
 no database is shared across services.
 
+Logical relationships exist between Order → Inventory and Order → Payment, 
+but no physical database relationships are enforced.
 ---
 
 ## Order Service

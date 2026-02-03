@@ -2,6 +2,7 @@ package com.example.orderservice.client;
 
 import com.example.orderservice.dto.PaymentRequest;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.util.Map;
  * @author Dilshan Chathuranga
  * @date 2/3/2026
  */
+@Slf4j
 @Component
 public class PaymentClient {
 
@@ -36,6 +38,7 @@ public class PaymentClient {
             fallbackMethod = "paymentFallback"
     )
     public void processPayment(Long orderId, BigDecimal amount) {
+        log.info("Calling PAYMENT service | orderId={} amount={}", orderId, amount);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -51,9 +54,20 @@ public class PaymentClient {
                 new HttpEntity<>(body, headers),
                 Void.class
         );
+        log.info("PAYMENT service call SUCCESS | orderId={}", orderId);
+
     }
 
     public void paymentFallback(Long orderId, BigDecimal amount, Throwable ex) {
+
+        log.error(
+                "PAYMENT CIRCUIT BREAKER OPEN | orderId={} | amount={} | reason={}",
+                orderId,
+                amount,
+                ex.getMessage()
+        );
+
         throw new RuntimeException("Payment service unavailable", ex);
     }
+
 }

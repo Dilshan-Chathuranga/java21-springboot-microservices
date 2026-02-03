@@ -79,4 +79,16 @@ public class InventoryServiceTest {
 
         assertEquals(7, inventory.getAvailableQuantity());
     }
+
+    @Test
+    void reserve_shouldThrowException_whenProductNotFound() {
+        when(repository.findByProductCode("P404"))
+                .thenReturn(Optional.empty());
+
+        assertThrows(
+                InsufficientStockException.class,
+                () -> service.reserve(new InventoryRequest("P404", 1))
+        );
+    }
+
 }

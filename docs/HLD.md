@@ -19,6 +19,8 @@ database such as PostgreSQL would be used without impacting service design.
 - Synchronous REST-based communication
 - Database-per-Service pattern
 - Containerized deployment using Docker and Docker Compose
+- The system is eventually consistent due to Saga-based orchestration.
+- All inter-service communication is secured using API-key–based authentication.
 
 The Order Service acts as a central orchestrator that coordinates interactions
 between Inventory and Payment services.
@@ -53,7 +55,8 @@ between Inventory and Payment services.
 - RESTful APIs over HTTP
 - JSON request/response payloads
 - Synchronous request-response communication model
-- Spring WebClient used for inter-service calls
+- Spring RestTemplate used for inter-service calls
+
 
 This approach was selected to keep orchestration logic explicit and simple,
 given the limited scope of the system.

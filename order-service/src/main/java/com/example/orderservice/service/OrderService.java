@@ -8,6 +8,7 @@ import com.example.orderservice.repository.OrderRepository;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.example.orderservice.client.InventoryClient;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
  * @date 2/3/2026
  */
 
+@Slf4j
 @Service
 public class OrderService {
 
@@ -38,6 +40,10 @@ public class OrderService {
 
     public Order placeOrder(OrderRequest request) {
 
+
+        log.info("Placing order | product={} qty={} amount={}",
+                request.productCode(), request.quantity(), request.amount());
+
         Order order = Order.builder()
                 .productCode(request.productCode())
                 .quantity(request.quantity())
@@ -49,6 +55,7 @@ public class OrderService {
         orderRepository.save(order);
 
         try {
+            log.info("Reserving inventory for orderId={}", order.getId());
             inventoryClient.reserve(
                     request.productCode(),
                     request.quantity()
@@ -60,12 +67,14 @@ public class OrderService {
             );
 
             order.setStatus(OrderStatus.COMPLETED);
-
+            log.info("Order COMPLETED | orderId={}", order.getId());
         } catch (Exception ex) {
-
+            log.error("Order FAILED | orderId={} | reason={}",
+                    order.getId(), ex.getMessage());
             inventoryClient.release(
                     request.productCode(),
                     request.quantity()
+
             );
 
             order.setStatus(OrderStatus.FAILED);

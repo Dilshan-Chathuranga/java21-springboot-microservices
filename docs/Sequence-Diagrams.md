@@ -44,3 +44,7 @@ Order Service → Inventory Service: Release Inventory (Compensating Action)
 Order Service → Order Service: Mark Order FAILED  
 
 Order Service → Client: Order Failed (Payment Failure)  
+
+Order Service → Payment Service: Process Payment (via Circuit Breaker)
+Payment Service → Order Service: Failure / Timeout / Circuit Open
+
