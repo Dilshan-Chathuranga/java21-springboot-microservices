@@ -1,6 +1,6 @@
 package com.example.inventoryservice.service;
 
-import com.example.inventoryservice.domain.Inventory;
+import com.example.inventoryservice.entity.Inventory;
 import com.example.inventoryservice.dto.InventoryRequest;
 import com.example.inventoryservice.exception.InsufficientStockException;
 import com.example.inventoryservice.repository.InventoryRepository;
