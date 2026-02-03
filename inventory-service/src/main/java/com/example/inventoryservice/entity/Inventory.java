@@ -1,4 +1,4 @@
-package com.example.inventoryservice.domain;
+package com.example.inventoryservice.entity;
 
 
 import com.example.inventoryservice.exception.InsufficientStockException;

@@ -1,7 +1,7 @@
 package com.example.inventoryservice.repository;
 
 
-import com.example.inventoryservice.domain.Inventory;
+import com.example.inventoryservice.entity.Inventory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
