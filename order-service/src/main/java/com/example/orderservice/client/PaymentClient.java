@@ -14,19 +14,21 @@ import java.util.Map;
  * @author Dilshan Chathuranga
  * @date 2/3/2026
  */
-
 @Component
 public class PaymentClient {
 
     private final RestTemplate restTemplate;
     private final String paymentServiceUrl;
+    private final String apiKey;
 
     public PaymentClient(
             RestTemplate restTemplate,
-            @Value("${payment.service.url}") String paymentServiceUrl
+            @Value("${payment.service.url}") String paymentServiceUrl,
+            @Value("${payment.api-key}") String apiKey
     ) {
         this.restTemplate = restTemplate;
         this.paymentServiceUrl = paymentServiceUrl;
+        this.apiKey = apiKey;
     }
 
     @CircuitBreaker(
@@ -37,6 +39,7 @@ public class PaymentClient {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("X-API-KEY", apiKey);
 
         Map<String, Object> body = Map.of(
                 "orderId", orderId,
@@ -50,11 +53,7 @@ public class PaymentClient {
         );
     }
 
-    public void paymentFallback(
-            Long orderId,
-            BigDecimal amount,
-            Throwable ex
-    ) {
+    public void paymentFallback(Long orderId, BigDecimal amount, Throwable ex) {
         throw new RuntimeException("Payment service unavailable", ex);
     }
 }

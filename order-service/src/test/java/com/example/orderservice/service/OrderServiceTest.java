@@ -9,6 +9,7 @@ import com.example.orderservice.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
@@ -23,7 +24,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @date 2/3/2026
  */
 
-@SpringBootTest
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.NONE
+)
+@ActiveProfiles("test")
 class OrderServiceTest {
 
     @Autowired

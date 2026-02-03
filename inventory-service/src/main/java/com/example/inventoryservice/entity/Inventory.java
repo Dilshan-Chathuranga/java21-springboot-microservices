@@ -28,6 +28,11 @@ import lombok.Setter;
 @Builder
 public class Inventory {
 
+    public Inventory(String productCode, int availableQuantity) {
+        this.productCode = productCode;
+        this.availableQuantity = availableQuantity;
+    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
