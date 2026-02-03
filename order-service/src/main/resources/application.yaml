@@ -28,6 +28,7 @@ app:
 inventory:
   service:
     url: ${INVENTORY_SERVICE_URL:http://localhost:8082}
+  api-key: inventory-secret-key
 
 payment:
   service:

@@ -21,7 +21,6 @@ public class RestClientConfig {
         SimpleClientHttpRequestFactory factory =
                 new SimpleClientHttpRequestFactory();
 
-        // ⏱ TIMEOUTS — THIS IS IMPORTANT
         factory.setConnectTimeout(3_000);
         factory.setReadTimeout(3_000);
 
