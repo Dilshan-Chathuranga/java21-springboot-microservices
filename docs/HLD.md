@@ -9,6 +9,9 @@ The primary goal of the system is to demonstrate clean service boundaries,
 resilience, fault tolerance, and maintainable orchestration logic while
 handling distributed business operations.
 
+H2 is used for simplicity in the assignment; in production, a managed relational
+database such as PostgreSQL would be used without impacting service design.
+
 ---
 
 ## Architecture
