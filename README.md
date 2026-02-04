@@ -57,7 +57,7 @@ java21-springboot-microservices
 ### Prerequisites
 
 - Java 21
-- Maven 3.9+
+- Maven 3.5+
 - Docker & Docker Compose
 
 ---
